@@ -20,7 +20,7 @@ class EVPNServiceBulkEditView(generic.BulkEditView):
     queryset = models.EVPNService.objects.all()
     filterset = filters.EVPNServiceFilterSet
     table = tables.EVPNServiceTable
-    forms = forms.EVPNServiceBulkEditForm
+    form = forms.EVPNServiceBulkEditForm
 
 
 class EVPNServiceBulkDeleteView(generic.BulkDeleteView):
