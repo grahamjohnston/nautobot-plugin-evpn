@@ -6,45 +6,45 @@ app_name = "evpn"
 
 urlpatterns = [
     # EVPNService
-    path("evpn-service/", views.EVPNServiceListView.as_view(), name="evpnservice_list"),
+    path("evpnservice/", views.EVPNServiceListView.as_view(), name="evpnservice_list"),
     path(
-        "evpn-service/add/",
+        "evpnservice/add/",
         views.EVPNServiceEditView.as_view(),
         name="evpnservice_add",
     ),
     path(
-        "evpn-service/edit/",
+        "evpnservice/edit/",
         views.EVPNServiceBulkEditView.as_view(),
         name="evpnservice_bulk_edit",
     ),
     path(
-        "evpn-service/delete/",
+        "evpnservice/delete/",
         views.EVPNServiceBulkDeleteView.as_view(),
         name="evpnservice_bulk_delete",
     ),
     path(
-        "evpn-service/<uuid:pk>/",
+        "evpnservice/<uuid:pk>/",
         views.EVPNServiceDetailView.as_view(),
-        name="evpn-service",
+        name="evpnservice",
     ),
     path(
-        "evpn-service/<uuid:pk>/edit/",
+        "evpnservice/<uuid:pk>/edit/",
         views.EVPNServiceEditView.as_view(),
         name="evpnservice_edit",
     ),
     path(
-        "evpn-service/<uuid:pk>/delete/",
+        "evpnservice/<uuid:pk>/delete/",
         views.EVPNServiceDeleteView.as_view(),
         name="evpnservice_delete",
     ),
     path(
-        "evpn-service/<uuid:pk>/changelog/",
+        "evpnservice/<uuid:pk>/changelog/",
         ObjectChangeLogView.as_view(),
         name="evpnservice_changelog",
         kwargs={"model": models.EVPNService},
     ),
     path(
-        "evpn-service/<uuid:pk>/notes/",
+        "evpnservice/<uuid:pk>/notes/",
         ObjectNotesView.as_view(),
         name="evpnservice_notes",
         kwargs={"model": models.EVPNService},
@@ -94,7 +94,7 @@ urlpatterns = [
         kwargs={"model": models.VNI},
     ),
     # EVPNLayer2VRF
-    path("evpn-layer2-vrf/", views.EVPNLayer2VRFListView.as_view(), name="evpn-layer2-vrf_list"),
+    path("evpnlayer2vrf/", views.EVPNLayer2VRFListView.as_view(), name="evpnlayer2vrf_list"),
     path(
         "evpnlayer2vrf/add/",
         views.EVPNLayer2VRFEditView.as_view(),
@@ -136,5 +136,93 @@ urlpatterns = [
         ObjectNotesView.as_view(),
         name="evpnlayer2vrf_notes",
         kwargs={"model": models.EVPNLayer2VRF},
+    ),
+    # EVPNLayer3VRF
+    path("evpnlayer3vrf/", views.EVPNLayer3VRFListView.as_view(), name="evpnlayer3vrf_list"),
+    path(
+        "evpnlayer3vrf/add/",
+        views.EVPNLayer3VRFEditView.as_view(),
+        name="evpnlayer3vrf_add",
+    ),
+    path(
+        "evpnlayer3vrf/edit/",
+        views.EVPNLayer3VRFBulkEditView.as_view(),
+        name="evpnlayer3vrf_bulk_edit",
+    ),
+    path(
+        "evpnlayer3vrf/delete/",
+        views.EVPNLayer3VRFBulkDeleteView.as_view(),
+        name="evpnlayer3vrf_bulk_delete",
+    ),
+    path(
+        "evpnlayer3vrf/<uuid:pk>/",
+        views.EVPNLayer3VRFDetailView.as_view(),
+        name="evpnlayer3vrf",
+    ),
+    path(
+        "evpnlayer3vrf/<uuid:pk>/edit/",
+        views.EVPNLayer3VRFEditView.as_view(),
+        name="evpnlayer3vrf_edit",
+    ),
+    path(
+        "evpnlayer3vrf/<uuid:pk>/delete/",
+        views.EVPNLayer3VRFDeleteView.as_view(),
+        name="evpnlayer3vrf_delete",
+    ),
+    path(
+        "evpnlayer3vrf/<uuid:pk>/changelog/",
+        ObjectChangeLogView.as_view(),
+        name="evpnlayer3vrf_changelog",
+        kwargs={"model": models.EVPNLayer3VRF},
+    ),
+    path(
+        "evpnlayer3vrf/<uuid:pk>/notes/",
+        ObjectNotesView.as_view(),
+        name="evpnlayer3vrf_notes",
+        kwargs={"model": models.EVPNLayer3VRF},
+    ),
+    # EVPNAttachmentPoint
+    path("evpnattachmentpoint/", views.EVPNAttachmentPointListView.as_view(), name="evpnattachmentpoint_list"),
+    path(
+        "evpnattachmentpoint/add/",
+        views.EVPNAttachmentPointEditView.as_view(),
+        name="evpnattachmentpoint_add",
+    ),
+    path(
+        "evpnattachmentpoint/edit/",
+        views.EVPNAttachmentPointBulkEditView.as_view(),
+        name="evpnattachmentpoint_bulk_edit",
+    ),
+    path(
+        "evpnattachmentpoint/delete/",
+        views.EVPNAttachmentPointBulkDeleteView.as_view(),
+        name="evpnattachmentpoint_bulk_delete",
+    ),
+    path(
+        "evpnattachmentpoint/<uuid:pk>/",
+        views.EVPNAttachmentPointDetailView.as_view(),
+        name="evpnattachmentpoint",
+    ),
+    path(
+        "evpnattachmentpoint/<uuid:pk>/edit/",
+        views.EVPNAttachmentPointEditView.as_view(),
+        name="evpnattachmentpoint_edit",
+    ),
+    path(
+        "evpnattachmentpoint/<uuid:pk>/delete/",
+        views.EVPNAttachmentPointDeleteView.as_view(),
+        name="evpnattachmentpoint_delete",
+    ),
+    path(
+        "evpnattachmentpoint/<uuid:pk>/changelog/",
+        ObjectChangeLogView.as_view(),
+        name="evpnattachmentpoint_changelog",
+        kwargs={"model": models.EVPNAttachmentPoint},
+    ),
+    path(
+        "evpnattachmentpoint/<uuid:pk>/notes/",
+        ObjectNotesView.as_view(),
+        name="evpnattachmentpoint_notes",
+        kwargs={"model": models.EVPNAttachmentPoint},
     ),
 ]

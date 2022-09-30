@@ -47,7 +47,7 @@
 </div>
 <ul class="nav nav-tabs">
     <li role="presentation" {% if active_tab == 'main' %} class="active" {% endif %}>
-        <a href="{% url 'plugins:nautobot_plugin_evpn:evpn-service' pk=object.id %}">EVPN Service</a>
+        <a href="{% url 'plugins:nautobot_plugin_evpn:evpnservice' pk=object.id %}">EVPN Service</a>
     </li>
     {% if perms.extras.view_objectchange %}
     <li role="presentation" {% if active_tab == 'changelog' %} class="active" {% endif %}>
@@ -70,12 +70,24 @@
                     <td>{{ object.name }}</td>
                 </tr>
                 <tr>
-                    <td>Description</td>
-                    <td>{{ object.description|placeholder }}</td>
+                    <td>Slug</td>
+                    <td>{{ object.slug }}</td>
+                </tr>
+                <tr>
+                    <td>EVPN Layer 2 VRF</td>
+                    <td>{{ object.layer2_vrf }}</td>
                 </tr>
                 <tr>
                     <td>VNI</td>
                     <td>{{ object.vni }}</td>
+                </tr>
+                <tr>
+                    <td>EVPN Layer 3 VRF</td>
+                    <td>{{ object.layer3_vrf }}</td>
+                </tr>
+                <tr>
+                    <td>Description</td>
+                    <td>{{ object.description|placeholder }}</td>
                 </tr>
                 <tr>
                     <td>Tenant</td>
