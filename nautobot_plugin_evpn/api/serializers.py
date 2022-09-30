@@ -9,7 +9,7 @@ class EVPNServiceSerializer(ValidatedModelSerializer):
     name = CharField()
     slug = CharField()
     layer2_vrf = CharField()
-    vni = IntegerField()
+    vni = CharField()
     layer3_vrf = CharField()
     description = CharField(required=False)
     tenant = NestedTenantSerializer(required=False)
