@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.core.validators import MaxValueValidator, MinValueValidator
 from nautobot.core.fields import AutoSlugField
 from nautobot.core.models.generics import PrimaryModel
+from nautobot.dcim.models.devices import Interface
 
 
 class VNI(PrimaryModel):
@@ -38,10 +39,10 @@ class EVPNLayer2VRF(PrimaryModel):
         verbose_name_plural = "EVPN Layer 2 VRFs"
 
     def get_absolute_url(self):
-        return reverse("plugins:nautobot_plugin_evpn:evpn-layer2-vrf", kwargs={"pk": self.pk})
+        return reverse("plugins:nautobot_plugin_evpn:evpnlayer2vrf", kwargs={"pk": self.pk})
 
     def __str__(self) -> str:
-        return f"{self.vrf} type {self.type}"
+        return f"{self.vrf}"
 
 
 class EVPNLayer3VRF(PrimaryModel):
@@ -60,10 +61,10 @@ class EVPNLayer3VRF(PrimaryModel):
         verbose_name_plural = "EVPN Layer 3 VRFs"
 
     def get_absolute_url(self):
-        return reverse("plugins:nautobot_plugin_evpn:evpn-layer3-vrf", kwargs={"pk": self.pk})
+        return reverse("plugins:nautobot_plugin_evpn:evpnlayer3vrf", kwargs={"pk": self.pk})
 
     def __str__(self) -> str:
-        return f"{self.vrf} type {self.type}"
+        return f"{self.vrf}"
 
 
 class EVPNService(PrimaryModel):
@@ -81,7 +82,24 @@ class EVPNService(PrimaryModel):
         verbose_name_plural = "EVPN Services"
 
     def get_absolute_url(self):
-        return reverse("plugins:nautobot_plugin_evpn:evpn-service", kwargs={"pk": self.pk})
+        return reverse("plugins:nautobot_plugin_evpn:evpnservice", kwargs={"pk": self.pk})
 
     def __str__(self) -> str:
-        return f"{self.name}  with VNI {self.vni}"
+        return f"{self.name}"
+
+
+class EVPNAttachmentPoint(PrimaryModel):
+    evpn_service = models.OneToOneField(EVPNService, on_delete=models.RESTRICT)
+    interface = models.OneToOneField(Interface, on_delete=models.RESTRICT)
+    description = models.CharField(max_length=200, blank=True)
+
+    class Meta:
+        ordering = ["evpn_service"]
+        verbose_name = "EVPN Attachment Point"
+        verbose_name_plural = "EVPN Attachment Points"
+
+    def get_absolute_url(self):
+        return reverse("plugins:nautobot_plugin_evpn:evpnattachmentpoint", kwargs={"pk": self.pk})
+
+    def __str__(self) -> str:
+        return f"{self.pk}"
