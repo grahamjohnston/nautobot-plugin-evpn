@@ -2,6 +2,8 @@ from django import forms
 from django.core.validators import MaxValueValidator, MinValueValidator
 from nautobot.ipam.models import VRF
 from nautobot.tenancy.models import Tenant
+from nautobot.dcim.models import Device
+from nautobot.dcim.models.devices import Interface
 from nautobot.utilities.forms import (
     BootstrapMixin,
     DynamicModelChoiceField,
@@ -9,7 +11,90 @@ from nautobot.utilities.forms import (
     SlugField,
 )
 
-from nautobot_plugin_evpn.models import EVPNService, VNI, EVPNLayer2VRF, EVPNLayer3VRF
+from nautobot_plugin_evpn.models import EVPNService, VNI, EVPNLayer2VRF, EVPNLayer3VRF, EVPNAttachmentPoint
+
+# VNI
+class VNIForm(BootstrapMixin, forms.ModelForm):
+    vni = forms.IntegerField(label="VNI", validators=[MinValueValidator(1), MaxValueValidator(16777216)])
+    description = forms.CharField(required=False, label="Description")
+
+    class Meta:
+        model = VNI
+        fields = ["vni", "description"]
+
+
+class VNIFilterForm(BootstrapMixin, forms.Form):
+    model = VNI
+    q = forms.CharField(required=False, label="Search")
+    vni = forms.IntegerField(
+        label="VNI", validators=[MinValueValidator(1), MaxValueValidator(16777216)], required=False
+    )
+    description = forms.CharField(label="Description", required=False)
+
+
+class VNIBulkEditForm(BootstrapMixin, BulkEditForm):
+    pk = forms.ModelMultipleChoiceField(queryset=VNI.objects.all(), widget=forms.MultipleHiddenInput)
+    description = forms.CharField(required=False)
+
+    class Meta:
+        nullable_fields = ["description"]
+
+
+class EVPNLayer2VRFForm(BootstrapMixin, forms.ModelForm):
+    vrf = DynamicModelChoiceField(queryset=VRF.objects.all(), label="VRF", required=False)
+    type = forms.ChoiceField(choices=EVPNLayer2VRF.EVPN_VRF_TYPES, label="Type")
+    encapsulation = forms.ChoiceField(choices=EVPNLayer2VRF.EVPN_ENCAPSULATION, label="Encapsulation")
+    description = forms.CharField(max_length=200, required=False)
+
+    class Meta:
+        model = EVPNLayer2VRF
+        fields = ["vrf", "type", "encapsulation", "description"]
+
+
+class EVPNLayer2VRFFilterForm(BootstrapMixin, forms.Form):
+    model = EVPNLayer2VRF
+    q = forms.CharField(required=False, label="Search")
+    # vni = forms.IntegerField(
+    #    label="EVPN Layer2 VRF", validators=[MinValueValidator(1), MaxValueValidator(16777216)], required=False
+    # )
+    description = forms.CharField(label="Description", required=False)
+
+
+class EVPNLayer2VRFBulkEditForm(BootstrapMixin, BulkEditForm):
+    pk = forms.ModelMultipleChoiceField(queryset=EVPNLayer2VRF.objects.all(), widget=forms.MultipleHiddenInput)
+    description = forms.CharField(required=False)
+
+    class Meta:
+        nullable_fields = ["description"]
+
+
+class EVPNLayer3VRFForm(BootstrapMixin, forms.ModelForm):
+    vrf = DynamicModelChoiceField(queryset=VRF.objects.all(), label="VRF", required=False)
+    type = forms.ChoiceField(choices=EVPNLayer3VRF.EVPN_VRF_TYPES, label="Type")
+    encapsulation = forms.ChoiceField(choices=EVPNLayer3VRF.EVPN_ENCAPSULATION, label="Encapsulation")
+    vni = DynamicModelChoiceField(queryset=VNI.objects.all(), label="VNI", required=False)
+    description = forms.CharField(max_length=200, required=False)
+
+    class Meta:
+        model = EVPNLayer3VRF
+        fields = ["vrf", "type", "encapsulation", "vni", "description"]
+
+
+class EVPNLayer3VRFFilterForm(BootstrapMixin, forms.Form):
+    model = EVPNLayer3VRF
+    q = forms.CharField(required=False, label="Search")
+    # vni = forms.IntegerField(
+    #    label="EVPN Layer2 VRF", validators=[MinValueValidator(1), MaxValueValidator(16777216)], required=False
+    # )
+    description = forms.CharField(label="Description", required=False)
+
+
+class EVPNLayer3VRFBulkEditForm(BootstrapMixin, BulkEditForm):
+    pk = forms.ModelMultipleChoiceField(queryset=EVPNLayer3VRF.objects.all(), widget=forms.MultipleHiddenInput)
+    description = forms.CharField(required=False)
+
+    class Meta:
+        nullable_fields = ["description"]
 
 
 class EVPNServiceForm(BootstrapMixin, forms.ModelForm):
@@ -25,8 +110,7 @@ class EVPNServiceForm(BootstrapMixin, forms.ModelForm):
         model = EVPNService
         fields = ["name", "slug", "description", "vni", "tenant"]
 
-
-"""
+    """
     def __init__(self, *args, **kwargs):
         instance = kwargs.get("instance")
         initial = kwargs.get("initial", {}).copy()
@@ -78,45 +162,19 @@ class EVPNServiceBulkEditForm(BootstrapMixin, BulkEditForm):
         nullable_fields = []
 
 
-class VNIForm(BootstrapMixin, forms.ModelForm):
-    vni = forms.IntegerField(label="VNI", validators=[MinValueValidator(1), MaxValueValidator(16777216)])
-    description = forms.CharField(required=False, label="Description")
-
-    class Meta:
-        model = VNI
-        fields = ["vni", "description"]
-
-
-class VNIFilterForm(BootstrapMixin, forms.Form):
-    model = VNI
-    q = forms.CharField(required=False, label="Search")
-    vni = forms.IntegerField(
-        label="VNI", validators=[MinValueValidator(1), MaxValueValidator(16777216)], required=False
-    )
-    description = forms.CharField(label="Description", required=False)
-
-
-class VNIBulkEditForm(BootstrapMixin, BulkEditForm):
-    pk = forms.ModelMultipleChoiceField(queryset=VNI.objects.all(), widget=forms.MultipleHiddenInput)
-    description = forms.CharField(required=False)
-
-    class Meta:
-        nullable_fields = ["description"]
-
-
-class EVPNLayer2VRFForm(BootstrapMixin, forms.ModelForm):
-    vrf = DynamicModelChoiceField(queryset=VRF.objects.all(), label="VRF", required=False)
-    type = forms.ChoiceField(choices=EVPNLayer2VRF.EVPN_VRF_TYPES, label="Type")
-    encapsulation = forms.ChoiceField(choices=EVPNLayer2VRF.EVPN_ENCAPSULATION, label="Encapsulation")
+class EVPNAttachmentPointForm(BootstrapMixin, forms.ModelForm):
+    evpn_service = DynamicModelChoiceField(queryset=EVPNService.objects.all(), label="EVPN Service")
+    device = DynamicModelChoiceField(queryset=Device.objects.all(), label="Device")
+    interface = DynamicModelChoiceField(queryset=Interface.objects.all(), label="Interface")
     description = forms.CharField(max_length=200, required=False)
 
     class Meta:
-        model = EVPNLayer2VRF
-        fields = ["vrf", "type", "encapsulation", "description"]
+        model = EVPNAttachmentPoint
+        fields = ["evpn_service", "device", "interface", "description"]
 
 
-class EVPNLayer2VRFFilterForm(BootstrapMixin, forms.Form):
-    model = EVPNLayer2VRF
+class EVPNAttachmentPointFilterForm(BootstrapMixin, forms.Form):
+    model = EVPNAttachmentPoint
     q = forms.CharField(required=False, label="Search")
     # vni = forms.IntegerField(
     #    label="EVPN Layer2 VRF", validators=[MinValueValidator(1), MaxValueValidator(16777216)], required=False
@@ -124,8 +182,8 @@ class EVPNLayer2VRFFilterForm(BootstrapMixin, forms.Form):
     description = forms.CharField(label="Description", required=False)
 
 
-class EVPNLayer2VRFBulkEditForm(BootstrapMixin, BulkEditForm):
-    pk = forms.ModelMultipleChoiceField(queryset=EVPNLayer2VRF.objects.all(), widget=forms.MultipleHiddenInput)
+class EVPNAttachmentPointBulkEditForm(BootstrapMixin, BulkEditForm):
+    pk = forms.ModelMultipleChoiceField(queryset=EVPNAttachmentPoint.objects.all(), widget=forms.MultipleHiddenInput)
     description = forms.CharField(required=False)
 
     class Meta:

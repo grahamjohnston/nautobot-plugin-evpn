@@ -105,3 +105,73 @@ class EVPNLayer2VRFDetailView(generic.ObjectView):
 
 class EVPNLayer2VRFDeleteView(generic.ObjectDeleteView):
     queryset = models.EVPNLayer2VRF.objects.all()
+
+
+# EVPNLayer3
+class EVPNLayer3VRFListView(generic.ObjectListView):
+    queryset = models.EVPNLayer3VRF.objects.all()
+    filterset = filters.EVPNLayer3VRFFilterSet
+    filterset_form = forms.EVPNLayer3VRFFilterForm
+    table = tables.EVPNLayer3VRFTable
+    action_buttons = ("add",)
+
+
+class EVPNLayer3VRFEditView(generic.ObjectEditView):
+    queryset = models.EVPNLayer3VRF.objects.all()
+    model_form = forms.EVPNLayer3VRFForm
+
+
+class EVPNLayer3VRFBulkEditView(generic.BulkEditView):
+    queryset = models.EVPNLayer3VRF.objects.all()
+    filterset = filters.EVPNLayer3VRFFilterSet
+    table = tables.EVPNLayer3VRFTable
+    form = forms.EVPNLayer3VRFBulkEditForm
+
+
+class EVPNLayer3VRFBulkDeleteView(generic.BulkDeleteView):
+    queryset = models.EVPNLayer3VRF.objects.all()
+    filterset = filters.EVPNLayer3VRFFilterSet
+    table = tables.EVPNLayer3VRFTable
+
+
+class EVPNLayer3VRFDetailView(generic.ObjectView):
+    queryset = models.EVPNLayer3VRF.objects.all()
+
+
+class EVPNLayer3VRFDeleteView(generic.ObjectDeleteView):
+    queryset = models.EVPNLayer3VRF.objects.all()
+
+
+# EVPNAttachmentPoint
+class EVPNAttachmentPointListView(generic.ObjectListView):
+    queryset = models.EVPNAttachmentPoint.objects.all()
+    filterset = filters.EVPNAttachmentPointFilterSet
+    filterset_form = forms.EVPNAttachmentPointFilterForm
+    table = tables.EVPNAttachmentPointTable
+    action_buttons = ("add",)
+
+
+class EVPNAttachmentPointEditView(generic.ObjectEditView):
+    queryset = models.EVPNAttachmentPoint.objects.all()
+    model_form = forms.EVPNAttachmentPointForm
+
+
+class EVPNAttachmentPointBulkEditView(generic.BulkEditView):
+    queryset = models.EVPNAttachmentPoint.objects.all()
+    filterset = filters.EVPNAttachmentPointFilterSet
+    table = tables.EVPNAttachmentPointTable
+    form = forms.EVPNAttachmentPointBulkEditForm
+
+
+class EVPNAttachmentPointBulkDeleteView(generic.BulkDeleteView):
+    queryset = models.EVPNAttachmentPoint.objects.all()
+    filterset = filters.EVPNAttachmentPointFilterSet
+    table = tables.EVPNAttachmentPointTable
+
+
+class EVPNAttachmentPointDetailView(generic.ObjectView):
+    queryset = models.EVPNAttachmentPoint.objects.all()
+
+
+class EVPNAttachmentPointDeleteView(generic.ObjectDeleteView):
+    queryset = models.EVPNAttachmentPoint.objects.all()

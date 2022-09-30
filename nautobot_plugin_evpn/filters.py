@@ -1,7 +1,7 @@
 from nautobot.extras.filters import CreatedUpdatedFilterSet
 from nautobot.utilities.filters import BaseFilterSet, SearchFilter
 
-from nautobot_plugin_evpn.models import EVPNService, VNI
+from nautobot_plugin_evpn.models import EVPNService, VNI, EVPNLayer2VRF, EVPNLayer3VRF, EVPNAttachmentPoint
 
 
 class VNIFilterSet(BaseFilterSet, CreatedUpdatedFilterSet):
@@ -48,8 +48,42 @@ class EVPNLayer2VRFFilterSet(BaseFilterSet, CreatedUpdatedFilterSet):
     )
 
     class Meta:
-        model = EVPNService
+        model = EVPNLayer2VRF
         fields = [
-            "name",
+            "vrf",
+            "description",
+        ]
+
+
+class EVPNLayer3VRFFilterSet(BaseFilterSet, CreatedUpdatedFilterSet):
+    q = SearchFilter(
+        filter_predicates={
+            "vrf": "icontains",
+            "description": "icontains",
+        },
+    )
+
+    class Meta:
+        model = EVPNLayer3VRF
+        fields = [
+            "vrf",
+            "description",
+        ]
+
+
+class EVPNAttachmentPointFilterSet(BaseFilterSet, CreatedUpdatedFilterSet):
+    q = SearchFilter(
+        filter_predicates={
+            "evpn_service": "icontains",
+            "interface": "icontains",
+            "description": "icontains",
+        },
+    )
+
+    class Meta:
+        model = EVPNAttachmentPoint
+        fields = [
+            "evpn_service",
+            "interface",
             "description",
         ]
