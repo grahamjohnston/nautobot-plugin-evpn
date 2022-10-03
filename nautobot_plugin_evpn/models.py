@@ -89,7 +89,7 @@ class EVPNService(PrimaryModel):
 
 
 class EVPNAttachmentPoint(PrimaryModel):
-    evpn_service = models.OneToOneField(EVPNService, on_delete=models.RESTRICT)
+    evpn_service = models.ForeignKey(EVPNService, on_delete=models.RESTRICT)
     device = models.ForeignKey(Device, on_delete=models.RESTRICT)
     interface = models.OneToOneField(Interface, on_delete=models.RESTRICT)
     description = models.CharField(max_length=200, blank=True)
@@ -104,3 +104,28 @@ class EVPNAttachmentPoint(PrimaryModel):
 
     def __str__(self) -> str:
         return f"{self.pk}"
+
+
+class EVPNLayer3Interface(PrimaryModel):
+    evpn_service = models.ForeignKey(EVPNService, on_delete=models.RESTRICT)
+    device = models.ForeignKey(Device, on_delete=models.RESTRICT)
+    interface = models.OneToOneField(Interface, on_delete=models.RESTRICT)
+    description = models.CharField(max_length=200, blank=True)
+
+    class Meta:
+        ordering = ["evpn_service"]
+        verbose_name = "EVPN Layer 3 Interface"
+        verbose_name_plural = "EVPN Layer 3 Interfaces"
+
+    def get_absolute_url(self):
+        return reverse("plugins:nautobot_plugin_evpn:evpnlayer3interface", kwargs={"pk": self.pk})
+
+    def __str__(self) -> str:
+        return f"{self.pk}"
+
+
+# class EVPNVirtualAddresses(PrimaryModel):
+#    EVPN_VIRTUAL_ADDRESS_TYPE = [("vga", "Virtual Gateway Address"), ("anycast", "Anycast Address")]
+#    evpn_service = models.ForeignKey(EVPNService, on_delete=models.RESTRICT)
+#    type = models.CharField(max_length=20, choices=EVPN_VIRTUAL_ADDRESS_TYPE)
+#    ipv4_address=models.
