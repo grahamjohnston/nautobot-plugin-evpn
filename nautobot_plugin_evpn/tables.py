@@ -41,7 +41,7 @@ class EVPNLayer3VRFTable(BaseTable):
     encapsulation = tables.Column()
     vni = tables.LinkColumn(verbose_name="VNI")
     description = tables.Column()
-    actions = ButtonsColumn(EVPNLayer2VRF)  # , buttons=["edit", "delete"])
+    actions = ButtonsColumn(EVPNLayer3VRF)  # , buttons=["edit", "delete"])
 
     class Meta(BaseTable.Meta):
         model = EVPNLayer3VRF
@@ -68,7 +68,7 @@ class EVPNAttachmentPointTable(BaseTable):
     device = tables.LinkColumn(verbose_name="Device")
     interface = tables.LinkColumn(verbose_name="Interface")
     description = tables.Column()
-    actions = ButtonsColumn(EVPNLayer2VRF)  # , buttons=["edit", "delete"])
+    actions = ButtonsColumn(EVPNAttachmentPoint)  # , buttons=["edit", "delete"])
 
     class Meta(BaseTable.Meta):
         model = EVPNAttachmentPoint
