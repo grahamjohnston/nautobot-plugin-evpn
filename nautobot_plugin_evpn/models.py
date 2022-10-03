@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.core.validators import MaxValueValidator, MinValueValidator
 from nautobot.core.fields import AutoSlugField
 from nautobot.core.models.generics import PrimaryModel
-from nautobot.dcim.models.devices import Interface
+from nautobot.dcim.models.devices import Device, Interface
 
 
 class VNI(PrimaryModel):
@@ -90,6 +90,7 @@ class EVPNService(PrimaryModel):
 
 class EVPNAttachmentPoint(PrimaryModel):
     evpn_service = models.OneToOneField(EVPNService, on_delete=models.RESTRICT)
+    device = models.ForeignKey(Device, on_delete=models.RESTRICT)
     interface = models.OneToOneField(Interface, on_delete=models.RESTRICT)
     description = models.CharField(max_length=200, blank=True)
 

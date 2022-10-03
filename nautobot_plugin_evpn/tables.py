@@ -65,10 +65,11 @@ class EVPNAttachmentPointTable(BaseTable):
     pk = ToggleColumn()
     id = tables.LinkColumn(verbose_name="ID")
     evpn_service = tables.LinkColumn(verbose_name="EVPN Service")
+    device = tables.LinkColumn(verbose_name="Device")
     interface = tables.LinkColumn(verbose_name="Interface")
     description = tables.Column()
     actions = ButtonsColumn(EVPNLayer2VRF)  # , buttons=["edit", "delete"])
 
     class Meta(BaseTable.Meta):
         model = EVPNAttachmentPoint
-        fields = ["pk", "id", "evpn_service", "interface", "description"]
+        fields = ["pk", "id", "evpn_service", "device", "interface", "description"]

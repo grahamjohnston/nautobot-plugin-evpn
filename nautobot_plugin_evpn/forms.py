@@ -10,6 +10,7 @@ from nautobot.utilities.forms import (
     BulkEditForm,
     SlugField,
 )
+from nautobot.extras.forms import RelationshipModelFormMixin
 
 from nautobot_plugin_evpn.models import EVPNService, VNI, EVPNLayer2VRF, EVPNLayer3VRF, EVPNAttachmentPoint
 
@@ -162,10 +163,22 @@ class EVPNServiceBulkEditForm(BootstrapMixin, BulkEditForm):
         nullable_fields = []
 
 
-class EVPNAttachmentPointForm(BootstrapMixin, forms.ModelForm):
+class EVPNAttachmentPointForm(
+    BootstrapMixin,
+    RelationshipModelFormMixin,
+    # forms.ModelForm,
+):
     evpn_service = DynamicModelChoiceField(queryset=EVPNService.objects.all(), label="EVPN Service")
-    device = DynamicModelChoiceField(queryset=Device.objects.all(), label="Device")
-    interface = DynamicModelChoiceField(queryset=Interface.objects.all(), label="Interface")
+    device = DynamicModelChoiceField(
+        queryset=Device.objects.all(),
+        label="Device",
+        initial_params={"interfaces": "$interface"},
+    )
+    interface = DynamicModelChoiceField(
+        queryset=Interface.objects.all(),
+        label="Interface",
+        query_params={"device_id": "$device"},
+    )
     description = forms.CharField(max_length=200, required=False)
 
     class Meta:

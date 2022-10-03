@@ -1,0 +1,17 @@
+{% extends 'generic/object_edit.html' %}
+
+{% load static %}
+{% load form_helpers %}
+{% load helpers %}
+
+{% block form %}
+ <div class="panel panel-default">
+        <div class="panel-heading"><strong>EVPN Attachment Point</strong></div>
+        <div class="panel-body">
+            {% render_field form.evpn_service %}
+            {% render_field form.device %}
+            {% render_field form.interface %}
+            {% render_field form.description %}
+        </div>
+    </div>
+{% endblock %}

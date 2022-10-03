@@ -154,6 +154,7 @@ class EVPNAttachmentPointListView(generic.ObjectListView):
 class EVPNAttachmentPointEditView(generic.ObjectEditView):
     queryset = models.EVPNAttachmentPoint.objects.all()
     model_form = forms.EVPNAttachmentPointForm
+    template_name = "nautobot_plugin_evpn/evpnattachmentpoint_edit.html"
 
 
 class EVPNAttachmentPointBulkEditView(generic.BulkEditView):
