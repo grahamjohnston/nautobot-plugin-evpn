@@ -2,7 +2,14 @@ from tabnanny import verbose
 import django_tables2 as tables
 from nautobot.utilities.tables import BaseTable, ButtonsColumn, ToggleColumn
 
-from nautobot_plugin_evpn.models import EVPNService, EVPNLayer2VRF, VNI, EVPNLayer3VRF, EVPNAttachmentPoint
+from nautobot_plugin_evpn.models import (
+    EVPNService,
+    EVPNLayer2VRF,
+    VNI,
+    EVPNLayer3VRF,
+    EVPNAttachmentPoint,
+    EVPNEthernetSegment,
+)
 
 
 class EVPNServiceTable(BaseTable):
@@ -73,3 +80,15 @@ class EVPNAttachmentPointTable(BaseTable):
     class Meta(BaseTable.Meta):
         model = EVPNAttachmentPoint
         fields = ["pk", "id", "evpn_service", "device", "interface", "description"]
+
+
+class EVPNEthernetSegmentTable(BaseTable):
+    pk = ToggleColumn()
+    esi = tables.LinkColumn(verbose_name="ESI")
+    type = tables.Column()
+    description = tables.Column()
+    actions = ButtonsColumn(EVPNEthernetSegment)  # , buttons=["edit", "delete"])
+
+    class Meta(BaseTable.Meta):
+        model = EVPNEthernetSegment
+        fields = ["pk", "esi", "type", "description"]

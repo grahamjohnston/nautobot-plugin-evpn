@@ -1,6 +1,6 @@
 from nautobot.core.apps import HomePageItem, HomePagePanel
 
-from .models import EVPNAttachmentPoint, EVPNService, VNI, EVPNLayer2VRF, EVPNLayer3VRF
+from .models import EVPNAttachmentPoint, EVPNEthernetSegment, EVPNService, VNI, EVPNLayer2VRF, EVPNLayer3VRF
 
 layout = (
     HomePagePanel(
@@ -30,6 +30,15 @@ layout = (
                 weight=150,
                 link="plugins:nautobot_plugin_evpn:evpnlayer3vrf_list",
                 description="EVPN Layer 3 VRFs",
+                # permissions=["example_plugin.view_examplemodel"],
+                permissions=[],
+            ),
+            HomePageItem(
+                name="ESIs",
+                model=EVPNEthernetSegment,
+                weight=150,
+                link="plugins:nautobot_plugin_evpn:evpnethernetsegment_list",
+                description="EVPN Ethernet Segment IDs",
                 # permissions=["example_plugin.view_examplemodel"],
                 permissions=[],
             ),

@@ -1,8 +1,9 @@
-from enum import unique
+import re
+
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator, MinLengthValidator
 from nautobot.core.fields import AutoSlugField
 from nautobot.core.models.generics import PrimaryModel
 from nautobot.dcim.models.devices import Device, Interface
@@ -122,6 +123,67 @@ class EVPNLayer3Interface(PrimaryModel):
 
     def __str__(self) -> str:
         return f"{self.pk}"
+
+
+class EVPNEthernetSegment(PrimaryModel):
+    ESI_TYPES = [
+        (0, "Manual"),
+        (1, "Auto from LACP"),
+        (2, "Auto from STP"),
+        (3, "MAC based"),
+        (4, "Router ID based"),
+        (5, "ASN Based"),
+    ]
+
+    type = models.IntegerField(choices=ESI_TYPES)
+    esi = models.CharField(
+        max_length=29, unique=True, null=True, blank=True, default=None, validators=[MinLengthValidator(29)]
+    )
+    description = models.CharField(max_length=200, blank=True)
+
+    class Meta:
+        ordering = ["esi"]
+        verbose_name = "EVPN Ethernet Segment Identifier"
+        verbose_name_plural = "EVPN Segment Identifiers"
+
+    def __str__(self) -> str:
+        return f"{self.pk}"
+
+    def get_absolute_url(self):
+        return reverse("plugins:nautobot_plugin_evpn:evpnethernetsegment", kwargs={"pk": self.pk})
+
+    def clean(self):
+        if self.esi:
+            if not re.match("^[a-fA-F0-9]{2}(:[a-fA-F0-9]{2}){9}$", self.esi):
+                raise ValidationError("ESI not a valid format, match be like 00:11:22:33:44:55:66:77:88:99.")
+
+        if self.type == 0 and not re.match("^00:", self.esi):
+            raise ValidationError("When ESI Type is Manual, ESI must start '00'.")
+
+        if self.type == 1 and self.esi != None:
+            raise ValidationError("When type is Auto from LACP, ESI must be left blank.")
+
+        if self.type == 2 and self.esi != None:
+            raise ValidationError("When type is Auto from STP, ESI must be left blank.")
+
+        if self.type == 3 and self.esi != None and not re.match("^03:", self.esi):
+            raise ValidationError(
+                "When using a MAC based ESI type and manually specifying the value, it must start with '03'."
+            )
+
+        if self.type == 4 and self.esi != None and not re.match("^04:", self.esi):
+            raise ValidationError(
+                "When using a Router ID based ESI type and manually specifying the value, it must start with '04'."
+            )
+
+        if self.type == 5 and self.esi != None and not re.match("^05:", self.esi):
+            raise ValidationError(
+                "When using an ASN based ESI type and manually specifying the value, it must start with '05'."
+            )
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        return super().save(*args, **kwargs)
 
 
 # class EVPNVirtualAddresses(PrimaryModel):

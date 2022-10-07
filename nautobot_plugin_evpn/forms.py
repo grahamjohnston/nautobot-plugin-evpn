@@ -12,7 +12,14 @@ from nautobot.utilities.forms import (
 )
 from nautobot.extras.forms import RelationshipModelFormMixin
 
-from nautobot_plugin_evpn.models import EVPNService, VNI, EVPNLayer2VRF, EVPNLayer3VRF, EVPNAttachmentPoint
+from nautobot_plugin_evpn.models import (
+    EVPNService,
+    VNI,
+    EVPNLayer2VRF,
+    EVPNLayer3VRF,
+    EVPNAttachmentPoint,
+    EVPNEthernetSegment,
+)
 
 # VNI
 class VNIForm(BootstrapMixin, forms.ModelForm):
@@ -197,6 +204,35 @@ class EVPNAttachmentPointFilterForm(BootstrapMixin, forms.Form):
 
 class EVPNAttachmentPointBulkEditForm(BootstrapMixin, BulkEditForm):
     pk = forms.ModelMultipleChoiceField(queryset=EVPNAttachmentPoint.objects.all(), widget=forms.MultipleHiddenInput)
+    description = forms.CharField(required=False)
+
+    class Meta:
+        nullable_fields = ["description"]
+
+
+# EVPN Ethernet Segment
+class EVPNEthernetSegmentForm(
+    BootstrapMixin,
+    forms.ModelForm,
+):
+    type = forms.ChoiceField(choices=EVPNEthernetSegment.ESI_TYPES, label="Type")
+    esi = forms.CharField(min_length=29, max_length=29, label="ESI", required=False, empty_value=None)
+    description = forms.CharField(max_length=200, required=False)
+
+    class Meta:
+        model = EVPNEthernetSegment
+        fields = ["type", "esi", "description"]
+
+
+class EVPNEthernetSegmentFilterForm(BootstrapMixin, forms.Form):
+    model = EVPNEthernetSegment
+    q = forms.CharField(required=False, label="Search")
+    esi = forms.CharField(label="ESI", required=False)
+    description = forms.CharField(label="Description", required=False)
+
+
+class EVPNEthernetSegmentBulkEditForm(BootstrapMixin, BulkEditForm):
+    pk = forms.ModelMultipleChoiceField(queryset=EVPNEthernetSegment.objects.all(), widget=forms.MultipleHiddenInput)
     description = forms.CharField(required=False)
 
     class Meta:

@@ -225,4 +225,48 @@ urlpatterns = [
         name="evpnattachmentpoint_notes",
         kwargs={"model": models.EVPNAttachmentPoint},
     ),
+    # EVPNEthernetSegment
+    path("evpnethernetsegment/", views.EVPNEthernetSegmentListView.as_view(), name="evpnethernetsegment_list"),
+    path(
+        "evpnethernetsegment/add/",
+        views.EVPNEthernetSegmentEditView.as_view(),
+        name="evpnethernetsegment_add",
+    ),
+    path(
+        "evpnethernetsegment/edit/",
+        views.EVPNEthernetSegmentBulkEditView.as_view(),
+        name="evpnethernetsegment_bulk_edit",
+    ),
+    path(
+        "evpnethernetsegment/delete/",
+        views.EVPNEthernetSegmentBulkDeleteView.as_view(),
+        name="evpnethernetsegment_bulk_delete",
+    ),
+    path(
+        "evpnethernetsegment/<uuid:pk>/",
+        views.EVPNEthernetSegmentDetailView.as_view(),
+        name="evpnethernetsegment",
+    ),
+    path(
+        "evpnethernetsegment/<uuid:pk>/edit/",
+        views.EVPNEthernetSegmentEditView.as_view(),
+        name="evpnethernetsegment_edit",
+    ),
+    path(
+        "evpnethernetsegment/<uuid:pk>/delete/",
+        views.EVPNEthernetSegmentDeleteView.as_view(),
+        name="evpnethernetsegment_delete",
+    ),
+    path(
+        "evpnethernetsegment/<uuid:pk>/changelog/",
+        ObjectChangeLogView.as_view(),
+        name="evpnethernetsegment_changelog",
+        kwargs={"model": models.EVPNEthernetSegment},
+    ),
+    path(
+        "evpnethernetsegment/<uuid:pk>/notes/",
+        ObjectNotesView.as_view(),
+        name="evpnethernetsegment_notes",
+        kwargs={"model": models.EVPNEthernetSegment},
+    ),
 ]

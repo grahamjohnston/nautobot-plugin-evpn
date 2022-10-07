@@ -176,3 +176,38 @@ class EVPNAttachmentPointDetailView(generic.ObjectView):
 
 class EVPNAttachmentPointDeleteView(generic.ObjectDeleteView):
     queryset = models.EVPNAttachmentPoint.objects.all()
+
+
+# EVPNEthernetSegment
+class EVPNEthernetSegmentListView(generic.ObjectListView):
+    queryset = models.EVPNEthernetSegment.objects.all()
+    filterset = filters.EVPNEthernetSegmentFilterSet
+    filterset_form = forms.EVPNEthernetSegmentFilterForm
+    table = tables.EVPNEthernetSegmentTable
+    action_buttons = ("add",)
+
+
+class EVPNEthernetSegmentEditView(generic.ObjectEditView):
+    queryset = models.EVPNEthernetSegment.objects.all()
+    model_form = forms.EVPNEthernetSegmentForm
+
+
+class EVPNEthernetSegmentBulkEditView(generic.BulkEditView):
+    queryset = models.EVPNEthernetSegment.objects.all()
+    filterset = filters.EVPNEthernetSegmentFilterSet
+    table = tables.EVPNEthernetSegmentTable
+    form = forms.EVPNEthernetSegmentBulkEditForm
+
+
+class EVPNEthernetSegmentBulkDeleteView(generic.BulkDeleteView):
+    queryset = models.EVPNEthernetSegment.objects.all()
+    filterset = filters.EVPNEthernetSegmentFilterSet
+    table = tables.EVPNEthernetSegmentTable
+
+
+class EVPNEthernetSegmentDetailView(generic.ObjectView):
+    queryset = models.EVPNEthernetSegment.objects.all()
+
+
+class EVPNEthernetSegmentDeleteView(generic.ObjectDeleteView):
+    queryset = models.EVPNEthernetSegment.objects.all()
