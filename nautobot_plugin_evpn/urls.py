@@ -269,4 +269,52 @@ urlpatterns = [
         name="evpnethernetsegment_notes",
         kwargs={"model": models.EVPNEthernetSegment},
     ),
+    # EVPNEthernetSegmentLAGInterface
+    path(
+        "evpnesilaginterface/",
+        views.EVPNEthernetSegmentLAGInterfaceListView.as_view(),
+        name="evpnethernetsegmentlaginterface_list",
+    ),
+    path(
+        "evpnesilaginterface/add/",
+        views.EVPNEthernetSegmentLAGInterfaceEditView.as_view(),
+        name="evpnethernetsegmentlaginterface_add",
+    ),
+    path(
+        "evpnesilaginterface/edit/",
+        views.EVPNEthernetSegmentLAGInterfaceBulkEditView.as_view(),
+        name="evpnethernetsegmentlaginterface_bulk_edit",
+    ),
+    path(
+        "evpnesilaginterface/delete/",
+        views.EVPNEthernetSegmentLAGInterfaceBulkDeleteView.as_view(),
+        name="evpnethernetsegmentlaginterface_bulk_delete",
+    ),
+    path(
+        "evpnesilaginterface/<uuid:pk>/",
+        views.EVPNEthernetSegmentLAGInterfaceDetailView.as_view(),
+        name="evpnethernetsegmentlaginterface",
+    ),
+    path(
+        "evpnesilaginterface/<uuid:pk>/edit/",
+        views.EVPNEthernetSegmentLAGInterfaceEditView.as_view(),
+        name="evpnethernetsegmentlaginterface_edit",
+    ),
+    path(
+        "evpnesilaginterface/<uuid:pk>/delete/",
+        views.EVPNEthernetSegmentLAGInterfaceDeleteView.as_view(),
+        name="evpnethernetsegmentlaginterface_delete",
+    ),
+    path(
+        "evpnesilaginterface/<uuid:pk>/changelog/",
+        ObjectChangeLogView.as_view(),
+        name="evpnethernetsegmentlaginterface_changelog",
+        kwargs={"model": models.EVPNEthernetSegmentLAGInterface},
+    ),
+    path(
+        "evpnesilaginterface/<uuid:pk>/notes/",
+        ObjectNotesView.as_view(),
+        name="evpnethernetsegmentlaginterface_notes",
+        kwargs={"model": models.EVPNEthernetSegmentLAGInterface},
+    ),
 ]

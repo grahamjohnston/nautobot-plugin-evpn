@@ -8,6 +8,7 @@ from nautobot_plugin_evpn.models import (
     EVPNLayer2VRF,
     EVPNLayer3VRF,
     EVPNAttachmentPoint,
+    EVPNEthernetSegmentLAGInterface,
 )
 
 
@@ -109,5 +110,23 @@ class EVPNEthernetSegmentFilterSet(BaseFilterSet, CreatedUpdatedFilterSet):
         fields = [
             "esi",
             "type",
+            "description",
+        ]
+
+
+class EVPNEthernetSegmentLAGInterfaceFilterSet(BaseFilterSet, CreatedUpdatedFilterSet):
+    q = SearchFilter(
+        filter_predicates={
+            "esi": "icontains",
+            "description": "icontains",
+        },
+    )
+
+    class Meta:
+        model = EVPNEthernetSegmentLAGInterface
+        fields = [
+            "esi",
+            "device",
+            "interface",
             "description",
         ]

@@ -211,3 +211,38 @@ class EVPNEthernetSegmentDetailView(generic.ObjectView):
 
 class EVPNEthernetSegmentDeleteView(generic.ObjectDeleteView):
     queryset = models.EVPNEthernetSegment.objects.all()
+
+
+# EVPNEthernetSegmentLAGInterface
+class EVPNEthernetSegmentLAGInterfaceListView(generic.ObjectListView):
+    queryset = models.EVPNEthernetSegmentLAGInterface.objects.all()
+    filterset = filters.EVPNEthernetSegmentLAGInterfaceFilterSet
+    filterset_form = forms.EVPNEthernetSegmentLAGInterfaceFilterForm
+    table = tables.EVPNEthernetSegmentLAGInterfaceTable
+    action_buttons = ("add",)
+
+
+class EVPNEthernetSegmentLAGInterfaceEditView(generic.ObjectEditView):
+    queryset = models.EVPNEthernetSegmentLAGInterface.objects.all()
+    model_form = forms.EVPNEthernetSegmentLAGInterfaceForm
+
+
+class EVPNEthernetSegmentLAGInterfaceBulkEditView(generic.BulkEditView):
+    queryset = models.EVPNEthernetSegmentLAGInterface.objects.all()
+    filterset = filters.EVPNEthernetSegmentLAGInterfaceFilterSet
+    table = tables.EVPNEthernetSegmentLAGInterfaceTable
+    form = forms.EVPNEthernetSegmentLAGInterfaceBulkEditForm
+
+
+class EVPNEthernetSegmentLAGInterfaceBulkDeleteView(generic.BulkDeleteView):
+    queryset = models.EVPNEthernetSegmentLAGInterface.objects.all()
+    filterset = filters.EVPNEthernetSegmentLAGInterfaceFilterSet
+    table = tables.EVPNEthernetSegmentLAGInterfaceTable
+
+
+class EVPNEthernetSegmentLAGInterfaceDetailView(generic.ObjectView):
+    queryset = models.EVPNEthernetSegmentLAGInterface.objects.all()
+
+
+class EVPNEthernetSegmentLAGInterfaceDeleteView(generic.ObjectDeleteView):
+    queryset = models.EVPNEthernetSegmentLAGInterface.objects.all()

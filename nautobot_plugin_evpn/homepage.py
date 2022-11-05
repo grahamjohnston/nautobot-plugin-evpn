@@ -1,6 +1,14 @@
 from nautobot.core.apps import HomePageItem, HomePagePanel
 
-from .models import EVPNAttachmentPoint, EVPNEthernetSegment, EVPNService, VNI, EVPNLayer2VRF, EVPNLayer3VRF
+from .models import (
+    EVPNAttachmentPoint,
+    EVPNEthernetSegment,
+    EVPNEthernetSegmentLAGInterface,
+    EVPNService,
+    VNI,
+    EVPNLayer2VRF,
+    EVPNLayer3VRF,
+)
 
 layout = (
     HomePagePanel(
@@ -57,6 +65,15 @@ layout = (
                 weight=150,
                 link="plugins:nautobot_plugin_evpn:evpnattachmentpoint_list",
                 description="EVPN Service Attachment Points",
+                # permissions=["example_plugin.view_examplemodel"],
+                permissions=[],
+            ),
+            HomePageItem(
+                name="EVPN ESI-LAG Interfaces",
+                model=EVPNEthernetSegmentLAGInterface,
+                weight=150,
+                link="plugins:nautobot_plugin_evpn:evpnethernetsegmentlaginterface_list",
+                description="EVPN ESI-LAG Interfaces",
                 # permissions=["example_plugin.view_examplemodel"],
                 permissions=[],
             ),

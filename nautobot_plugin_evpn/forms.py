@@ -19,6 +19,7 @@ from nautobot_plugin_evpn.models import (
     EVPNLayer3VRF,
     EVPNAttachmentPoint,
     EVPNEthernetSegment,
+    EVPNEthernetSegmentLAGInterface,
 )
 
 # VNI
@@ -233,6 +234,49 @@ class EVPNEthernetSegmentFilterForm(BootstrapMixin, forms.Form):
 
 class EVPNEthernetSegmentBulkEditForm(BootstrapMixin, BulkEditForm):
     pk = forms.ModelMultipleChoiceField(queryset=EVPNEthernetSegment.objects.all(), widget=forms.MultipleHiddenInput)
+    description = forms.CharField(required=False)
+
+    class Meta:
+        nullable_fields = ["description"]
+
+
+# EVPN Ethernet Segment LAG Interface
+
+
+class EVPNEthernetSegmentLAGInterfaceForm(
+    BootstrapMixin,
+    RelationshipModelFormMixin,
+):
+
+    device = DynamicModelChoiceField(
+        queryset=Device.objects.all(),
+        label="Device",
+        initial_params={"interfaces": "$interface"},
+    )
+    interface = DynamicModelChoiceField(
+        queryset=Interface.objects.all(),
+        label="Interface",
+        query_params={"device_id": "$device"},
+    )
+
+    description = forms.CharField(max_length=200, required=False)
+
+    class Meta:
+        model = EVPNEthernetSegmentLAGInterface
+        fields = ["esi", "device", "interface", "description"]
+
+
+class EVPNEthernetSegmentLAGInterfaceFilterForm(BootstrapMixin, forms.Form):
+    model = EVPNEthernetSegmentLAGInterface
+    q = forms.CharField(required=False, label="Search")
+    esi = forms.CharField(label="ESI", required=False)
+    description = forms.CharField(label="Description", required=False)
+
+
+class EVPNEthernetSegmentLAGInterfaceBulkEditForm(BootstrapMixin, BulkEditForm):
+    pk = forms.ModelMultipleChoiceField(
+        queryset=EVPNEthernetSegmentLAGInterface.objects.all(), widget=forms.MultipleHiddenInput
+    )
     description = forms.CharField(required=False)
 
     class Meta:

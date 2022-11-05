@@ -147,7 +147,10 @@ class EVPNEthernetSegment(PrimaryModel):
         verbose_name_plural = "EVPN Segment Identifiers"
 
     def __str__(self) -> str:
-        return f"{self.pk}"
+        if self.esi and len(self.esi) > 0:
+            return f"{self.esi}"
+        else:
+            return f"{self.ESI_TYPES[self.type][1]}"
 
     def get_absolute_url(self):
         return reverse("plugins:nautobot_plugin_evpn:evpnethernetsegment", kwargs={"pk": self.pk})
@@ -191,3 +194,21 @@ class EVPNEthernetSegment(PrimaryModel):
 #    evpn_service = models.ForeignKey(EVPNService, on_delete=models.RESTRICT)
 #    type = models.CharField(max_length=20, choices=EVPN_VIRTUAL_ADDRESS_TYPE)
 #    ipv4_address=models.
+
+
+class EVPNEthernetSegmentLAGInterface(PrimaryModel):
+    esi = models.ForeignKey(EVPNEthernetSegment, on_delete=models.RESTRICT)
+    device = models.ForeignKey(Device, on_delete=models.RESTRICT)
+    interface = models.ForeignKey(Interface, on_delete=models.RESTRICT)
+    description = models.CharField(max_length=200, blank=True)
+
+    class Meta:
+        ordering = ["esi"]
+        verbose_name = "EVPN ESI-LAG"
+        verbose_name_plural = "EVPN ESI-LAGs"
+
+    def get_absolute_url(self):
+        return reverse("plugins:nautobot_plugin_evpn:evpnethernetsegmentlaginterface", kwargs={"pk": self.pk})
+
+    def __str__(self) -> str:
+        return f"{self.pk}"

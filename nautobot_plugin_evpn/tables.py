@@ -9,6 +9,7 @@ from nautobot_plugin_evpn.models import (
     EVPNLayer3VRF,
     EVPNAttachmentPoint,
     EVPNEthernetSegment,
+    EVPNEthernetSegmentLAGInterface,
 )
 
 
@@ -92,3 +93,17 @@ class EVPNEthernetSegmentTable(BaseTable):
     class Meta(BaseTable.Meta):
         model = EVPNEthernetSegment
         fields = ["pk", "esi", "type", "description"]
+
+
+class EVPNEthernetSegmentLAGInterfaceTable(BaseTable):
+    pk = ToggleColumn()
+    id = tables.LinkColumn(verbose_name="ID")
+    esi = tables.LinkColumn(verbose_name="ESI")
+    device = tables.LinkColumn()
+    interface = tables.LinkColumn()
+    description = tables.Column()
+    actions = ButtonsColumn(EVPNEthernetSegmentLAGInterface)  # , buttons=["edit", "delete"])
+
+    class Meta(BaseTable.Meta):
+        model = EVPNEthernetSegmentLAGInterface
+        fields = ["pk", "id", "esi", "device", "interface", "description"]

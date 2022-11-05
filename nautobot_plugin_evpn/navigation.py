@@ -131,6 +131,25 @@ menu_items = (
                             # ),
                         ),
                     ),
+                    NavMenuItem(
+                        link="plugins:nautobot_plugin_evpn:evpnethernetsegmentlaginterface_list",
+                        name="EVPN ESI-LAG Interfaces",
+                        # permissions=["example_plugin.view_examplemodel"],
+                        permissions=[],
+                        buttons=(
+                            NavMenuAddButton(
+                                link="plugins:nautobot_plugin_evpn:evpnethernetsegmentlaginterface_add",
+                                # permissions=[
+                                #    "example_plugin.add_examplemodel",
+                                # ],
+                                permissions=[],
+                            ),
+                            # NavMenuImportButton(
+                            #    link="plugins:example_plugin:examplemodel_import",
+                            #    permissions=["example_plugin.add_examplemodel"],
+                            # ),
+                        ),
+                    ),
                 ),
             ),
         ),
